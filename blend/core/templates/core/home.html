@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Blend</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .title {
+            color: rgb(199, 56, 56);
+            font-size: 4rem;
+            letter-spacing: 0.7rem;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            letter-spacing: 0.3rem;
+            text-transform: uppercase;
+        }
+
+        .start-button {
+            background-color: whitesmoke;
+            color: black;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .start-button:hover {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">L&nbsp;E&nbsp;E&nbsp;T&nbsp;C&nbsp;O&nbsp;D&nbsp;E&nbsp;&nbsp;B&nbsp;L&nbsp;E&nbsp;N&nbsp;D</h1>
+        <p class="subtitle">COMPARE&nbsp;AND&nbsp;GROW</p>
+        <a href="{% url 'user' %}" class="start-button">GET&nbsp;STARTED</a>
+    </div>
+</body>
+</html>

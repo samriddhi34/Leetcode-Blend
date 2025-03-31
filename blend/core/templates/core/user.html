@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Users - LeetCode Blend</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #000000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .user-container {
+            max-width: 450px; /* Reduced width */
+            width: 90%;
+            margin: 20px auto;
+            background: #2a2a2a;
+            padding: 25px;
+            border-radius: 15px; /* Increased container radius */
+            box-shadow: 0 4px 20px rgba(255,255,255,0.08);
+            color: white;
+        }
+    
+        .user-input-group {
+            margin: 20px 0;
+        }
+    
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: white;
+            font-weight: 600;
+        }
+    
+        input {
+            width: 100%;
+            padding: 12px 18px;
+            border: 1px solid #444;
+            border-radius: 25px; /* Circular inputs */
+            font-size: 16px;
+            background-color: #333;
+            color: white;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+    
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+        }
+    
+        .button-group {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 15px;
+            margin-top: 30px;
+        }
+    
+        .btn {
+            padding: 14px;
+            border-radius: 25px; /* Circular buttons */
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+        }
+    
+        .btn {
+            background-color: #3498db; /* Light blue */
+            color: white;
+        }
+    
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+    
+        .btn-generate {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="user-container">
+        <div id="userInputs">
+            <div class="user-input-group">
+                <label>User Name 1</label>
+                <input type="text" name="usernames">
+            </div>
+            <div class="user-input-group">
+                <label>User Name 2</label>
+                <input type="text" name="usernames">
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button type="button" class="btn" onclick="addUserField()">Add User</button>
+            <button type="button" class="btn" onclick="compareUsers()">Compare</button>
+            <button type="button" class="btn btn-generate" onclick="generateCommonList()">Generate Common List</button>
+        </div>
+    </div>
+
+    <script>
+        let userCount = 2;
+
+        function addUserField() {
+            userCount++;
+            const newUserGroup = document.createElement('div');
+            newUserGroup.className = 'user-input-group';
+            
+            const newLabel = document.createElement('label');
+            newLabel.textContent = `User Name ${userCount}`;
+            
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'usernames';
+            
+            newUserGroup.appendChild(newLabel);
+            newUserGroup.appendChild(newInput);
+            
+            document.getElementById('userInputs').appendChild(newUserGroup);
+        }
+
+        function getUsernames() {
+            return Array.from(document.querySelectorAll('input[name="usernames"]'))
+                .map(input => input.value.trim())
+                .filter(username => username.length > 0);
+        }
+
+        function compareUsers() {
+            const usernames = getUsernames();
+            if (usernames.length > 0) {
+                window.location.href = `/compare/?users=${encodeURIComponent(usernames.join(','))}`;
+            } else {
+                alert("Please enter at least one username!");
+            }
+        }
+
+        function generateCommonList() {
+            const btn = document.querySelector('.btn-generate');
+            const originalText = btn.innerHTML;
+            try {
+                btn.innerHTML = 'Generating...';
+                btn.disabled = true;
+                const usernames = getUsernames();
+                if (usernames.length < 2) {
+                    throw new Error("Please enter at least two usernames!");
+                }
+                document.getElementById('hiddenUsernames').value = usernames.join(',');
+                document.getElementById('commonListForm').submit();
+            } catch (error) {
+                alert(error.message);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+
+    <form id="commonListForm" method="post" action="{% url 'common_list' %}" style="display: none;">
+        {% csrf_token %}
+        <input type="hidden" name="usernames" id="hiddenUsernames">
+    </form>
+</body>
+</html>

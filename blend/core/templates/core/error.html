@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .error-box {
+            background: #ffe6e6;
+            border: 2px solid #ff0000;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-box">
+        <h2>Error: {{ message }}</h2>
+        <a href="{% url 'user' %}">Try Again</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Practice List - LeetCode Blend</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: black;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .error {
+            color: #e74c3c;
+            padding: 10px;
+            background: #f8d7da;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .topics-section, .questions-section {
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .topic-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #3498db;
+            color: white;
+            border-radius: 15px;
+            margin: 5px;
+        }
+        .question-card {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin: 10px 0;
+            transition: transform 0.2s;
+        }
+        .question-card:hover {
+            transform: translateX(5px);
+            border-color: #3498db;
+        }
+        .difficulty {
+            font-weight: bold;
+        }
+        .difficulty.E { color: #2ecc71; }
+        .difficulty.M { color: #f1c40f; }
+        .difficulty.H { color: #e74c3c; }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .highlight-topic {
+            background: #e67e22 !important;  /* Orange color for emphasis */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% else %}
+            <div class="topics-section">
+                <h2>Common Topics</h2>
+                {% for topic in common_topics %}
+                    <span class="topic-badge">{{ topic }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="questions-section">
+                <h2>Recommended Questions</h2>
+                {% for question in questions %}
+                    <div class="question-card">
+                        <div class="difficulty {{ question.difficulty }}">
+                            {{ question.get_difficulty_display }} 
+                        </div>
+                        <h3>{{ question.title }}</h3>
+                        <div class="topics">
+                            {% for topic in question.topics %}
+                                {% if topic in common_topics %}
+                                    <span class="topic-badge highlight-topic">{{ topic }}</span>
+                                {% else %}
+                                    <span class="topic-badge">{{ topic }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <a href="{{ question.Question_Link }}" target="_blank">Solve on LeetCode</a>
+                        {% if question.solution %}
+                            <span> | </span>
+                            <a href="{{ question.solution }}" target="_blank">View Solution</a>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p>No questions found for these topics.</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

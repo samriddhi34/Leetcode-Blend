@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison Results - LeetCode Blend</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: black;
+        }
+
+        .results-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .user-card {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .username {
+            color: #3498db;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            color: #2c3e50;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .topics-section {
+            margin-top: 20px;
+        }
+
+        .topic-tag {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            margin: 5px;
+            font-size: 0.9em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-link:hover {
+            background-color: #2980b9;
+        }
+
+        .difficulty-easy { color: #27ae60; }
+        .difficulty-medium { color: #f1c40f; }
+        .difficulty-hard { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="results-container">
+        <h1 style="color: #2c3e50; text-align: center; margin-bottom: 30px;">Comparison Results</h1>
+        
+        {% for user in users %}
+        <div class="user-card">
+            <div class="user-header">
+                <h2 class="username">@{{ user.username }}</h2>
+                <div class="stat-box" style="background: #3498db; color: white;">
+                    <div class="stat-label">TOTAL SOLVED</div>
+                    <div class="stat-value">{{ user.total_solved }}</div>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-label difficulty-easy">EASY</div>
+                    <div class="stat-value">{{ user.easy_solved }}</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-label difficulty-medium">MEDIUM</div>
+                    <div class="stat-value">{{ user.medium_solved }}</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-label difficulty-hard">HARD</div>
+                    <div class="stat-value">{{ user.hard_solved }}</div>
+                </div>
+            </div>
+
+            <div class="topics-section">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">Top Practiced Topics</h3>
+                {% for topic, count in user.topics.items|slice:":8" %}
+                <div class="topic-tag">
+                    {{ topic }} ({{ count }})
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="{% url 'user' %}" class="back-link">← Back to User Input</a>
+        </div>
+    </div>
+</body>
+</html>
